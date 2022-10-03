@@ -11,7 +11,7 @@ def init_board(dim):
         board.append(sublist)
     return board
 
-
+# prints entire board
 def printBoard(board):
     for i in board:
         for j in i:
@@ -42,6 +42,7 @@ def isFull(board):
     else:
         return True
 
+# check if a row is all the same
 def checkRow(row):
     a = row[0]
     for i in row:
@@ -50,6 +51,7 @@ def checkRow(row):
     else:
         return True
 
+# check if a column is all the same
 def checkCol(board, rownum):
     a = board[0][rownum]
     for i in range(len(board)):
@@ -58,25 +60,20 @@ def checkCol(board, rownum):
     else:
         return True
 
-''' 
-r = [
-    [1,2,"O"],
-    [4,"O",6],
-    ["O",8,9]
-]
 
-r[0][2] = r[1][1] = r [2][0]
-'''
-
+# checks for win across the board
 def checkCross(board):
     lrcross = True
     rlcross = True
     a = board[0][0]
     b = board[0][-1]
+
+    # top left to bottom right diagonal
     for i in range(len(board)):
         if board[i][i] != a:
             lrcross = False
 
+    # bottom left to top right diagonal line
     for i in range(len(board)):
         if board[i][len(board)-1-i] != b:
             rlcross = False
@@ -93,7 +90,7 @@ def checkWinner(board):
         if checkRow(board[i]) == True:
             winner = True
             return True
-
+    # check each column
     for i in range(len(board)):
         if checkCol(board, i) == True:
             winner = True
@@ -105,8 +102,9 @@ def checkWinner(board):
 
     return winner
 
-
+# function that checks if input is allowed
 def canInput(pos,board):
+    # first checks if it's an integer
     if pos.isdigit() == False:
         return False
 
@@ -115,15 +113,16 @@ def canInput(pos,board):
     dim = len(board)
     x = pos//dim
     y = pos % dim
-    if pos+1>dim*dim:
+    if pos+1>dim*dim: # check if out of bounds
         return False
-    return not (board[x][y] == "X" or board[x][y] == "O")
+    return not (board[x][y] == "X" or board[x][y] == "O") # checks if chosen position has already been selected
 
 
 def main():
     '''Your main function.  Do NOT change the given code.'''
     dim = int(input("Input dimension of the board: "))
     board = init_board(dim)
+
     printBoard(board)
     
     game = True
@@ -131,6 +130,8 @@ def main():
 
     while game:
         game = not (checkWinner(board) or isFull(board))
+
+        # this is X's turn
         if turn == "X":
             xpos = input("X position: ")
             while canInput(xpos, board) == False:
@@ -140,6 +141,8 @@ def main():
             board = addPos("X", int(xpos), board)
 
             turn = "O"
+
+        # this is O's turn
         elif turn == "O":
             opos = input("O position: ")
             while canInput(opos, board) == False:
@@ -151,6 +154,7 @@ def main():
             turn = "X"
 
         printBoard(board)
+        
         game = not (checkWinner(board) or isFull(board))
 
     if isFull(board):
