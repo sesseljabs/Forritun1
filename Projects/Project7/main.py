@@ -58,17 +58,27 @@ def checkCol(board, rownum):
     else:
         return True
 
+''' 
+r = [
+    [1,2,"O"],
+    [4,"O",6],
+    ["O",8,9]
+]
+
+r[0][2] = r[1][1] = r [2][0]
+'''
+
 def checkCross(board):
     lrcross = True
     rlcross = True
     a = board[0][0]
-    b = board[-1][-1]
+    b = board[0][-1]
     for i in range(len(board)):
         if board[i][i] != a:
             lrcross = False
 
-    for i in range(len(board)-1,-1,-1):
-        if board[i][i] != b:
+    for i in range(len(board)):
+        if board[i][len(board)-1-i] != b:
             rlcross = False
     
     return lrcross or rlcross
@@ -80,7 +90,7 @@ def checkWinner(board):
     usr = ""
     # check each row
     for i in range(len(board)):
-        if checkRow(board[0]) == True:
+        if checkRow(board[i]) == True:
             winner = True
             return True
 
@@ -95,6 +105,7 @@ def checkWinner(board):
 
     return winner
 
+
 def canInput(pos,board):
     if pos.isdigit() == False:
         return False
@@ -107,7 +118,6 @@ def canInput(pos,board):
     if pos+1>dim*dim:
         return False
     return not (board[x][y] == "X" or board[x][y] == "O")
-    
 
 
 def main():
@@ -118,22 +128,22 @@ def main():
     
     game = True
     turn = "X"
+
     while game:
-        game = (not checkWinner(board)) or isFull(board)
+        game = not (checkWinner(board) or isFull(board))
         if turn == "X":
             xpos = input("X position: ")
             while canInput(xpos, board) == False:
-                print("illegal move")
+                print("Illegal move!")
                 xpos = input("X position: ")
 
             board = addPos("X", int(xpos), board)
 
             turn = "O"
-    
         elif turn == "O":
             opos = input("O position: ")
             while canInput(opos, board) == False:
-                print("illegal move")
+                print("Illegal move!")
                 opos = input("O position: ")
 
             board = addPos("O", int(opos), board)
@@ -141,15 +151,14 @@ def main():
             turn = "X"
 
         printBoard(board)
-
-        game = (not checkWinner(board)) or isFull(board)
+        game = not (checkWinner(board) or isFull(board))
 
     if isFull(board):
-        print("Draw")
+        print("Draw!")
     elif turn == "O":
-        print("X won")
+        print("Winner is: X")
     elif turn == "X":
-        print("O won")
+        print("Winner is: O")
         
     
     
