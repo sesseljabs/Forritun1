@@ -36,14 +36,39 @@ def addPos(val,pos,board):
 def isFull(board):
     for i in board:
         for j in i:
-            if j != "X" or j != "O":
+            if j != "X" and j != "O":
                 return False
     else:
         return True
 
 # check if someone has won the game
 def checkWinner(board):
-    pass
+    winner = True
+    usr = ""
+    # check each row
+    for i in range(len(board)):
+        if board[i][0]=="X" or board[i][0]=="O":
+            s = board[i][0]
+            for j in range(1,len(board)):
+                if not s == board[i][j]:
+                    winner = False
+            if winner:
+                usr = s
+                    
+    
+    # check each column
+    if False == True:
+        for i in range(len(board)):
+            if board[0][i]=="X" or board[0][i]=="O":
+                s = board[0][i]
+
+                for j in range(1,len(board)):
+                    if not s == board[j][i]:
+                        winner = False
+
+
+    return winner
+
 
 
 
@@ -52,6 +77,12 @@ def main():
     dim = int(input("Input dimension of the board: "))
     board = init_board(dim)
     printBoard(board)
+    for i in range(1,(dim*dim)+1):
+        pass
+        #board = addPos("O", i, board)
+    #addPos("O", 3, board)
+    printBoard(board)
+    print(checkWinner(board))
     
     
 
