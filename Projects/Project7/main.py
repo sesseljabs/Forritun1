@@ -15,8 +15,9 @@ def init_board(dim):
 def printBoard(board):
     for i in board:
         for j in i:
-            print(j,end="\t")
-        print("\n")
+            print(f"{j : >5}", end="")
+        print()
+
 
 # adds a value to a section of a board
 def addPos(val,pos,board):
@@ -94,7 +95,19 @@ def checkWinner(board):
 
     return winner
 
+def canInput(pos,board):
+    if pos.isdigit() == False:
+        return False
 
+    pos = int(pos)
+    pos -= 1
+    dim = len(board)
+    x = pos//dim
+    y = pos % dim
+    if pos+1>dim*dim:
+        return False
+    return not (board[x][y] == "X" or board[x][y] == "O")
+    
 
 
 def main():
@@ -102,16 +115,42 @@ def main():
     dim = int(input("Input dimension of the board: "))
     board = init_board(dim)
     printBoard(board)
-    for i in range(dim):
-        pass#board[i][i] = "X"
-        #board = addPos("O", i, board)
-    for i in range(1,dim+1):
-        pass#board = addPos("X", i, board)
-    for i in range(dim-1,-1,-1):
-        pass#board[i][i] = "X"
-    #addPos("O", 3, board)
-    printBoard(board)
-    print(checkWinner(board))
+    
+    game = True
+    turn = "X"
+    while game:
+        game = (not checkWinner(board)) or isFull(board)
+        if turn == "X":
+            xpos = input("X position: ")
+            while canInput(xpos, board) == False:
+                print("illegal move")
+                xpos = input("X position: ")
+
+            board = addPos("X", int(xpos), board)
+
+            turn = "O"
+    
+        elif turn == "O":
+            opos = input("O position: ")
+            while canInput(opos, board) == False:
+                print("illegal move")
+                opos = input("O position: ")
+
+            board = addPos("O", int(opos), board)
+
+            turn = "X"
+
+        printBoard(board)
+
+        game = (not checkWinner(board)) or isFull(board)
+
+    if isFull(board):
+        print("Draw")
+    elif turn == "O":
+        print("X won")
+    elif turn == "X":
+        print("O won")
+        
     
     
 
