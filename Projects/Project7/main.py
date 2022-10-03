@@ -58,12 +58,20 @@ def checkCol(board, rownum):
         return True
 
 def checkCross(board):
-    a = [0][0]
+    lrcross = True
+    rlcross = True
+    a = board[0][0]
+    b = board[-1][-1]
     for i in range(len(board)):
-        if a != board[i][i]:
-            return False
-    else:
-        return True
+        if board[i][i] != a:
+            lrcross = False
+
+    for i in range(len(board)-1,-1,-1):
+        if board[i][i] != b:
+            rlcross = False
+    
+    return lrcross or rlcross
+        
 
 # check if someone has won the game
 def checkWinner(board):
@@ -81,24 +89,7 @@ def checkWinner(board):
             return True
     
 
-    a = [0][0]
-    for i in range(len(board)):
-        if a != board[i][i]:
-            return False
-    else:
-        return True
-
-    lrcross = True
-    rlcross = True
-    a = board[0][0]
-    b = board[-1][-1]
-    for i in range(len(board)):
-        if board[i][i] != a:
-            lrcross = False
-    for i in range(len(board),0,-1):
-        if board[i][i] != b:
-            rlcross = False
-    if rlcross or lrcross:
+    if checkCross(board) == True:
         winner = True
 
     return winner
@@ -111,10 +102,14 @@ def main():
     dim = int(input("Input dimension of the board: "))
     board = init_board(dim)
     printBoard(board)
-    for i in range(1,(dim)+1):
-        pass
+    for i in range(dim):
+        pass#board[i][i] = "X"
         #board = addPos("O", i, board)
-    addPos("O", 3, board)
+    for i in range(1,dim+1):
+        pass#board = addPos("X", i, board)
+    for i in range(dim-1,-1,-1):
+        pass#board[i][i] = "X"
+    #addPos("O", 3, board)
     printBoard(board)
     print(checkWinner(board))
     
