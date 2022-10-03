@@ -17,7 +17,7 @@ while equation!="q":
     for i in equation:
         print("sum:",sum,"currentnum",currentnum)
         if i.isdigit():
-            print("is is digit %s"%i)
+            print("i is digit %s"%i)
             currentnum+=i
 
         elif i in OPERATORS:
