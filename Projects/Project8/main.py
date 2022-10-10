@@ -39,14 +39,15 @@ def calculate_grades(students,parts): # takes both lists and returns a nested li
 
 def print_grades(students,vals):
     '''prints grades :) '''
-    print(students,"\n")
-    print(f"{'Student ID' : >14}",end="")
+    print(students)
+    print()
+    print(f"{'Student ID' : >16}",end="")
     for i in vals:
         print(f"{i[0] : >14}", end="")
-    print(f"{'Course Grade' : >14}",end="")
+    print(f"{'Course grade' : >14}",end="")
     print()
     for i in students:
-        print(f"{i[0] : >14}",end="")
+        print(f"{i[0] : >16}",end="")
         for j in i[1]:
             print(f"{j : >14}", end="")
         print(f"{i[2] : >14}")
