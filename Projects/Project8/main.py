@@ -50,7 +50,7 @@ def print_grades(students,vals):
         print(f"{i[0] : >16}",end="")
         for j in i[1]:
             print(f"{j : >14}", end="")
-        print(f"{i[2] : >14}")
+        print(f"{i[2] : >14.2f}")
 
 def main(): # main function
     partsinput = input("Enter filename for parts: ")
