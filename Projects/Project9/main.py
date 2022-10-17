@@ -41,6 +41,7 @@ def split_to_words(paragraph):
     return parwords
 
 def word_count(words):
+    '''Counts word in a given list, returns it as a dictionary with the words and how often they appeared'''
     counts = dict()
 
     for word in words:
@@ -52,6 +53,7 @@ def word_count(words):
     return counts
 
 def get_all_words(text):
+    '''Returns a list of all the words in the text'''
     allwords = []
     for i in text:
         for j in i:
@@ -61,24 +63,30 @@ def get_all_words(text):
 
 
 def get_par_allwords(paragraphs):
+    '''Takes in a list of the paragraphs
+        Goes through the words to edit an index of where the words have appeared
+        Returns a dictionary with the word and a list as a value
+    '''
     pars = dict()
 
     for i in range(len(paragraphs)):
         for j in paragraphs[i]:
-            if j in pars:
+            if j in pars: # to check if the word has already been counted in this paragraph
                 if i+1 not in pars[j]:
                     pars[j].append(i+1)
-            else:
+            else: # otherwise add to the index
                 pars[j] = [i+1]
     return pars
 
 def split_all_paragraphs(paragraphs):
+    '''Takes in a list of the paragraphs and splits the words in it'''
     splitpars = []
     for i in paragraphs:
         splitpars.append(split_to_words(i))
     return splitpars
 
 def print_highest(allwords,number):
+    '''Prints the x most used words'''
     print()
     print(f"The highest {number} counts: ")
 
@@ -92,6 +100,7 @@ def print_highest(allwords,number):
 
 
 def print_locations(paragraph_location):
+    '''Prints the words in alphabetical order and with the paragraph index'''
     print()
     print("The paragraph index: ")
     locs = sorted(list(paragraph_location.items()))
@@ -116,11 +125,6 @@ def main():
     
     print_highest(get_all_words(splitpars), 10)
     print_highest(get_all_words(splitpars), 20)
-    
-
-
-    #print(sorted(list(sorted(allwordcount.items())), key=itemgetter(1), reverse=True))
-    
     
 
     
