@@ -31,9 +31,13 @@ def split_to_words(paragraph):
         for j in line:
             if j[0] in string.punctuation:
                 j = j[1:]
+            if j[0] in string.punctuation:
+                j = j[1:]
             if j[-1] in string.punctuation:
                 j = j[:-1]
-            parwords.append(j)
+            if j[-1] in string.punctuation:
+                j = j[:-1]
+            parwords.append(j.lower())
     return parwords
 
 def word_count(words):
@@ -55,6 +59,7 @@ def get_all_words(text):
     return allwords
 
 
+
 def get_par_allwords(paragraphs):
     pars = dict()
 
@@ -74,24 +79,44 @@ def split_all_paragraphs(paragraphs):
     return splitpars
 
 def print_highest(allwords,number):
+    print()
+    print(f"The highest {number} counts: ")
 
     count = word_count(allwords)
 
 
-    print(sorted(list(sorted(count.items())), key=itemgetter(1), reverse=True))
+    sortedcount = sorted(list(sorted(count.items())), key=itemgetter(1), reverse=True)
+
+    for i in range(number):
+        print(f"{sortedcount[i][0]}: {sortedcount[i][1]}")
+
+
+def print_locations(paragraph_location):
+    print()
+    print("The paragraph index: ")
+    locs = sorted(list(paragraph_location.items()))
+    for i in locs:
+        print(i[0], end=" ")
+        print(*i[1], sep=", ")
 
 
 def main():
-    f = open_file("test.txt")
+    fname = input("Enter filename: ")
+    f = open_file(fname)
+    if f == None:
+        print(f"Filename {fname} not found!")
+        return
+
     paragraphs = split_file_paragraphs(f)
     splitpars = split_all_paragraphs(paragraphs)
 
-
-    print_highest(get_all_words(splitpars), 10)
-    
-    
     paragraph_location = get_par_allwords(splitpars)
-    print(paragraph_location)
+    print_locations(paragraph_location)
+
+    
+    print_highest(get_all_words(splitpars), 10)
+    print_highest(get_all_words(splitpars), 20)
+    
 
 
     #print(sorted(list(sorted(allwordcount.items())), key=itemgetter(1), reverse=True))
