@@ -1,4 +1,5 @@
 import string
+from operator import itemgetter
 
 def open_file(fname):
     '''Opens file by name, returns filestream and None if file doesn't exist'''
@@ -46,20 +47,55 @@ def word_count(words):
             counts[word] = 1
     return counts
 
+def get_all_words(text):
+    allwords = []
+    for i in text:
+        for j in i:
+            allwords.append(j)
+    return allwords
+
+
+def get_par_allwords(paragraphs):
+    pars = dict()
+
+    for i in range(len(paragraphs)):
+        for j in paragraphs[i]:
+            if j in pars:
+                if i+1 not in pars[j]:
+                    pars[j].append(i+1)
+            else:
+                pars[j] = [i+1]
+    return pars
+
+def split_all_paragraphs(paragraphs):
+    splitpars = []
+    for i in paragraphs:
+        splitpars.append(split_to_words(i))
+    return splitpars
+
+def print_highest(allwords,number):
+
+    count = word_count(allwords)
+
+
+    print(sorted(list(sorted(count.items())), key=itemgetter(1), reverse=True))
+
 
 def main():
     f = open_file("test.txt")
-    g = split_file_paragraphs(f)
-    new = []
-    counts = []
-    for i in g:
-        if i != []:
-            words = split_to_words(i)
-            new.append(words)
-            counts.append(word_count(words))
-    print(*new)
-    print("\n\n")
-    print(*counts,end="\n")
+    paragraphs = split_file_paragraphs(f)
+    splitpars = split_all_paragraphs(paragraphs)
+
+
+    print_highest(get_all_words(splitpars), 10)
+    
+    
+    paragraph_location = get_par_allwords(splitpars)
+    print(paragraph_location)
+
+
+    #print(sorted(list(sorted(allwordcount.items())), key=itemgetter(1), reverse=True))
+    
     
 
     
